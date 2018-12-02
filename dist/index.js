@@ -9,5 +9,5 @@ App_1.default.listen(port, (err) => {
     if (err) {
         return config_1.logger.error(err);
     }
-    return config_1.logger.info(`server is listening on ${port} port`);
+    return config_1.logger.info(`Server is listening on port ${port}`);
 });
