@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
 var express = require("express");
 var bodyParser = require("body-parser");
 require("dotenv/config");
 var methodOverride = require("method-override");
-var path = require("path");
 var config_1 = require("./config");
 var routes_1 = require("./routes");
 var App = /** @class */ (function () {
