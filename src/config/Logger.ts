@@ -1,6 +1,5 @@
 import * as winston from 'winston';
 import * as appRoot from 'app-root-path';
-
 class Logger {
 
   public winston: winston.Logger;
@@ -9,11 +8,18 @@ class Logger {
     const loggerOptions = this.initializeLoggerOptions();
     this.winston = this.setupWinstonLogger(loggerOptions);
   }
+  
+  private format() {
+    const formatMessage = info => `[${info.timestamp.slice(0, 19).replace('T', ' ')}] ${info.level}: ${info.message}`;
+    return winston.format.combine(
+      winston.format.colorize(),
+      winston.format.timestamp(),
+      winston.format.printf(formatMessage)
+    );
+  }
 
   private initializeLoggerOptions(): any {
-    const loggerFormat = winston.format.printf(info => {
-      return `${info.timestamp.slice(0, 19).replace('T', ' ')} [${info.label}] ${info.level}: ${info.message}`;
-    });
+
     const options = {
       file: {
         level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
@@ -31,12 +37,7 @@ class Logger {
         handleExceptions: true,
         json: false,
         colorize: true,
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.label({ label: `${process.env.NODE_ENV.toUpperCase()}-LOGS` }),
-          winston.format.timestamp(),
-          loggerFormat
-        )
+        format: this.format(),
       },
     }
     return options;

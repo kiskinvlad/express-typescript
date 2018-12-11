@@ -1,14 +1,12 @@
 { 
   "compilerOptions": { 
-    "target": "es6", 
+    "target": "es5", 
     "module": "commonjs", 
     "outDir": "dist", 
-    "sourceMap": false 
+    "sourceMap": false ,
+    "lib": ["es5", "es6", "dom"],
+    "typeRoots": ["node_modules/@types"]
   }, 
-  "files": [ 
-    "./mocha/index.d.ts", 
-    "./node/index.d.ts" 
-  ], 
   "include": [ 
     "src/**/*.ts" 
   ], 

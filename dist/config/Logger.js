@@ -1,20 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const winston = require("winston");
-const appRoot = require("app-root-path");
-class Logger {
-    constructor() {
-        const loggerOptions = this.initializeLoggerOptions();
+var winston = require("winston");
+var appRoot = require("app-root-path");
+var Logger = /** @class */ (function () {
+    function Logger() {
+        var loggerOptions = this.initializeLoggerOptions();
         this.winston = this.setupWinstonLogger(loggerOptions);
     }
-    initializeLoggerOptions() {
-        const loggerFormat = winston.format.printf(info => {
-            return `${info.timestamp.slice(0, 19).replace('T', ' ')} [${info.label}] ${info.level}: ${info.message}`;
-        });
-        const options = {
+    Logger.prototype.format = function () {
+        var formatMessage = function (info) { return "[" + info.timestamp.slice(0, 19).replace('T', ' ') + "] " + info.level + ": " + info.message; };
+        return winston.format.combine(winston.format.colorize(), winston.format.timestamp(), winston.format.printf(formatMessage));
+    };
+    Logger.prototype.initializeLoggerOptions = function () {
+        var options = {
             file: {
                 level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
-                filename: `${appRoot}/logs/app.log`,
+                filename: appRoot + "/logs/app.log",
                 options: { flags: 'w' },
                 handleExceptions: true,
                 json: true,
@@ -28,13 +29,13 @@ class Logger {
                 handleExceptions: true,
                 json: false,
                 colorize: true,
-                format: winston.format.combine(winston.format.colorize(), winston.format.label({ label: `${process.env.NODE_ENV.toUpperCase()}-LOGS` }), winston.format.timestamp(), loggerFormat)
+                format: this.format(),
             },
         };
         return options;
-    }
-    setupWinstonLogger(options) {
-        const logger = winston.createLogger({
+    };
+    Logger.prototype.setupWinstonLogger = function (options) {
+        var logger = winston.createLogger({
             transports: [
                 new winston.transports.File(options.file),
                 new winston.transports.Console(options.console)
@@ -42,6 +43,7 @@ class Logger {
             exitOnError: false,
         });
         return logger;
-    }
-}
+    };
+    return Logger;
+}());
 exports.default = new Logger().winston;
