@@ -16,9 +16,7 @@ var ErrorHandler = /** @class */ (function () {
         }
     };
     ErrorHandler.errorHandler = function (err, req, res, next) {
-        res.status(500);
-        index_1.logger.error("" + JSON.stringify(err.message));
-        res.render('error', { error: err });
+        res.status(500).send({ error: err.message });
     };
     return ErrorHandler;
 }());

@@ -15,9 +15,7 @@ abstract class ErrorHandler {
     }
   }
   static errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-    res.status(500);
-    logger.error(`${JSON.stringify(err.message)}`);
-    res.render('error', { error: err});
+    res.status(500).send({ error : err.message});
   }
   
 }

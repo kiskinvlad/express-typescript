@@ -27,6 +27,7 @@ var Logger = /** @class */ (function () {
             console: {
                 level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
                 handleExceptions: true,
+                options: { flags: 'w' },
                 json: false,
                 colorize: true,
                 format: this.format(),
@@ -37,7 +38,9 @@ var Logger = /** @class */ (function () {
     Logger.prototype.setupWinstonLogger = function (options) {
         var logger = winston.createLogger({
             transports: [
-                new winston.transports.File(options.file),
+                new winston.transports.File(options.file).on('flush', function () {
+                    process.exit(0);
+                }),
                 new winston.transports.Console(options.console)
             ],
             exitOnError: false,
