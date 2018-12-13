@@ -1,8 +1,8 @@
+import * as path from 'path';
 import * as express from "express";
 import * as bodyParser from 'body-parser';
 import 'dotenv/config';
 import * as methodOverride from 'method-override';
-import * as path from 'path';
 import { logger } from "./config";
 import { ErrorHandler } from "./config";
 import { api } from './routes'
@@ -10,7 +10,6 @@ import { api } from './routes'
 class App { 
 
   public express: express.Application; 
-
   constructor () { 
     this.express = express();
     this.setupConfigurations();

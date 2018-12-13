@@ -1,5 +1,6 @@
 { 
   "compilerOptions": { 
+    "noImplicitAny": false,
     "target": "es5", 
     "module": "commonjs", 
     "outDir": "dist", 
@@ -8,10 +9,24 @@
     "typeRoots": ["node_modules/@types"]
   }, 
   "include": [ 
-    "src/**/*.ts" ,
-    "src/**/*.html"
+    "src/index.ts" ,
+    "src/App.ts" ,
+    "src/routes/api-routes.ts" ,
+    "src/routes/index.ts" ,
+    "src/config/ErrorHandler.ts" ,
+    "src/config/Logger.ts" ,
+    "src/config/index.ts"
   ], 
   "exclude": [ 
     "node_modules" 
+  ],
+  "files": [
+    "src/index.ts" ,
+    "src/App.ts" ,
+    "src/routes/api-routes.ts" ,
+    "src/routes/index.ts" ,
+    "src/config/ErrorHandler.ts" ,
+    "src/config/Logger.ts" ,
+    "src/config/index.ts"
   ]
 }
