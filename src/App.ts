@@ -10,7 +10,6 @@ import { api } from './routes'
 class App { 
 
   public express: express.Application; 
-
   constructor () { 
     this.express = express();
     this.setupConfigurations();

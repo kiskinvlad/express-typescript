@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { logger } from "./config";
 import app from './App';
-
+require.main.filename = 'index.js'
 const port = process.env.PORT || 3000; 
 
 app.listen(port, (err) => { 
