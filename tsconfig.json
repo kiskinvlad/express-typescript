@@ -3,30 +3,21 @@
     "noImplicitAny": false,
     "target": "es5", 
     "module": "commonjs", 
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "outDir": "dist", 
     "sourceMap": false ,
     "lib": ["es5", "es6", "dom"],
     "typeRoots": ["node_modules/@types"]
   }, 
   "include": [ 
-    "src/index.ts" ,
-    "src/App.ts" ,
-    "src/routes/api-routes.ts" ,
-    "src/routes/index.ts" ,
-    "src/config/ErrorHandler.ts" ,
-    "src/config/Logger.ts" ,
-    "src/config/index.ts"
+    "src/*/*.ts" ,
   ], 
   "exclude": [ 
     "node_modules" 
   ],
   "files": [
-    "src/index.ts" ,
-    "src/App.ts" ,
-    "src/routes/api-routes.ts" ,
-    "src/routes/index.ts" ,
-    "src/config/ErrorHandler.ts" ,
-    "src/config/Logger.ts" ,
-    "src/config/index.ts"
+    "src/*/*.ts" ,
   ]
 }
