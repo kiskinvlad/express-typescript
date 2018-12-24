@@ -23,7 +23,7 @@ class CompanyRoutes {
           { where: where}
         ));
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
@@ -31,7 +31,7 @@ class CompanyRoutes {
       try {
         res.status(200).json(await Company.findAll());
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
@@ -40,7 +40,7 @@ class CompanyRoutes {
       try {
         res.status(200).json(await Company.findById(id));
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
@@ -51,7 +51,7 @@ class CompanyRoutes {
           {where: {companyId: id}}
         ));
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
@@ -60,7 +60,7 @@ class CompanyRoutes {
         const company = await Company.create(req.body);
         res.status(201).json(company);
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 

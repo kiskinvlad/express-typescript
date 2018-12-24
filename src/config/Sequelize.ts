@@ -10,6 +10,7 @@ export const sequelize =  new Sequelize({
   port: dbconfig.port,
   username: dbconfig.username,
   password: dbconfig.password,
+  logging: process.env.NODE_ENV === 'test' ? false : true
 });
 
 sequelize.addModels([User, Company]);

@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
-import { User } from "../models/user";
+import { UserModel } from "../models/user";
 
-export interface IUserModel extends User, Document {
+export interface IUserModel extends UserModel, Document {
   //custom methods for your model would be defined here
 }

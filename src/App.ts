@@ -15,7 +15,7 @@ import { sequelize } from './config';
 
 import { IUserModel } from "./interfaces/IUserModel";
 import { IModel } from "./interfaces/index";
-import { User } from "./models/user";
+import { UserModel } from "./models/user";
 import { userMongoSchema } from "./schemas/mongo/user";
 
 class App { 
@@ -31,9 +31,10 @@ class App {
     this.express = express();
     this.setupConfigurations();
 
-    this.setupMongo();
-    this.setupPostgress();
-    
+    if(process.env.NODE_ENV !== 'test') {
+      this.setupMongo();
+      this.setupPostgress();
+    }
     this.mountAPIRoutes();
     this.handleErrors();
   

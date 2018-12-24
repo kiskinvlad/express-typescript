@@ -15,7 +15,7 @@ class ErrorHandler {
         }
     }
     static errorHandler(err, req, res, next) {
-        res.status(500).send({ error: err });
+        res.status(500).send({ message: err.message, name: err.name });
     }
 }
 exports.default = ErrorHandler;

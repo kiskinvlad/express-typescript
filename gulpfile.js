@@ -1,12 +1,13 @@
 const { task, gulp, src, dest } = require("gulp");
-const browserify = require("browserify");
 const source = require('vinyl-source-stream');
 const tsify = require("tsify");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
 const paths = {
     pages: ['src/static/*.html'],
-    env: ['.env']
+    env: ['.env'],
+    spec: ['src/tests/unit/psql/*.spec.ts']
+
 };
 
 const copyHtml = function () {
@@ -19,10 +20,15 @@ const copyEnv = function () {
         .pipe(dest("dist"));
 };
 
+const copySpec = function () {
+    return src(paths.spec)
+        .pipe(dest("dist/tests"));
+};
 
 function defaultTask(cb) {
     copyHtml();
     copyEnv();
+    copySpec();
     tsProject.src()
         .pipe(tsProject())
         .js.pipe(dest("dist"));

@@ -12,7 +12,7 @@ class UserRoutes {
 
   private initializeSequelizeRouter(): void {
 
-    this.router.patch('/', async (req: Request, res: Response, next: NextFunction) => {
+    this.router.patch('/', async (req: Request, res: Response) => {
       const id = req.query.id;
       const body = req.body;
       try {
@@ -21,34 +21,47 @@ class UserRoutes {
           { where: {id: id}}
         ));
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
-    this.router.get('/all', async (req: Request, res: Response, next: NextFunction) => {
+    this.router.get('/all', async (req: Request, res: Response) => {
       try {
         res.status(200).json(await User.findAll());
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
 
-    this.router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    this.router.get('/', async (req: Request, res: Response) => {
       const id = req.query.id;
       try {
         res.status(200).json(await User.findById(id));
       } catch (e) {
-        next(e);
+        res.status(500).json({message: e.message, name: e.name})
       }
     });
     
 
-    this.router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    this.router.post('/', async (req: Request, res: Response) => {
       try {
-        const user = await User.create(req.body);
-        res.status(201).json(user);
+        const email = req.body.email;
+        const exist = await User.findOne({where: {email: email}})
+        if(!exist) {
+          const user = await User.create(req.body);
+          res.status(201).json(user);
+        } else {
+          const e = { status: 409, message: 'User with same email already exist', name: "USER_EMAIL_EXIST" }
+          res.status(e.status).json({message: e.message, name: e.name})
+        }
       } catch (e) {
-        next(e);
+        if(e.message.includes('email cannot be null')) {
+          e.name = "EMAIL_IS_NULL"
+          res.status(500).json({message: e.message, name: e.name})
+        } else {
+          e.name = "SOMETHING_WRONG"
+          res.status(500).json({message: e.message, name: e.name})
+        }
       }
     });
 
@@ -57,7 +70,6 @@ class UserRoutes {
       res.status(e.status).json({message: e.message});
       next();
     })
-    
   }
   
 }
