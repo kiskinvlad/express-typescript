@@ -1,5 +1,6 @@
-export interface User {
-  email?: string;
+export interface UserModel {
+  email: string;
   firstName?: string;
   lastName?: string;
+  companyId?: number;
 }

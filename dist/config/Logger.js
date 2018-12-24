@@ -7,22 +7,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var winston = __importStar(require("winston"));
-var appRoot = __importStar(require("app-root-path"));
-var Logger = /** @class */ (function () {
-    function Logger() {
-        var loggerOptions = this.initializeLoggerOptions();
+const winston = __importStar(require("winston"));
+const appRoot = __importStar(require("app-root-path"));
+class Logger {
+    constructor() {
+        const loggerOptions = this.initializeLoggerOptions();
         this.winston = this.setupWinstonLogger(loggerOptions);
     }
-    Logger.prototype.format = function () {
-        var formatMessage = function (info) { return "[" + info.timestamp.slice(0, 19).replace('T', ' ') + "] " + info.level + ": " + info.message; };
+    format() {
+        const formatMessage = info => `[${info.timestamp.slice(0, 19).replace('T', ' ')}] ${info.level}: ${info.message}`;
         return winston.format.combine(winston.format.colorize(), winston.format.timestamp(), winston.format.printf(formatMessage));
-    };
-    Logger.prototype.initializeLoggerOptions = function () {
-        var options = {
+    }
+    initializeLoggerOptions() {
+        const options = {
             file: {
                 level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
-                filename: appRoot + "/logs/app.log",
+                filename: `${appRoot}/logs/app.log`,
                 options: { flags: 'w' },
                 handleExceptions: true,
                 json: true,
@@ -41,11 +41,11 @@ var Logger = /** @class */ (function () {
             },
         };
         return options;
-    };
-    Logger.prototype.setupWinstonLogger = function (options) {
-        var logger = winston.createLogger({
+    }
+    setupWinstonLogger(options) {
+        const logger = winston.createLogger({
             transports: [
-                new winston.transports.File(options.file).on('flush', function () {
+                new winston.transports.File(options.file).on('flush', () => {
                     process.exit(0);
                 }),
                 new winston.transports.Console(options.console)
@@ -53,7 +53,6 @@ var Logger = /** @class */ (function () {
             exitOnError: false,
         });
         return logger;
-    };
-    return Logger;
-}());
+    }
+}
 exports.default = new Logger().winston;

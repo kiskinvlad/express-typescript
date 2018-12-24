@@ -1,15 +1,16 @@
 import { suite, test } from "mocha-typescript";
 import mongoose from "mongoose";
 
-import { IUserModel } from "../interfaces/IUserModel";
-import { IModel } from "../interfaces/index";
-import { User } from "../models/user";
-import { userSchema } from "../schemas/user";
+import { IUserModel } from "../../../interfaces/IUserModel";
+import { IModel } from "../../../interfaces/index";
+import { UserModel } from "../../../models/user";
+import { userMongoSchema } from "../../../schemas/mongo/user";
+import faker from 'faker';
 
 @suite
 class MongoTest {
 
-  private data: User;
+  private data: UserModel;
   public static User: mongoose.Model<IUserModel>;
 
   public static before() {
@@ -20,7 +21,7 @@ class MongoTest {
     const MONGODB_CONNECTION: string = "mongodb://localhost:27017/db";
     let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
 
-    MongoTest.User = connection.model<IUserModel>("User", userSchema);
+    MongoTest.User = connection.model<IUserModel>("User", userMongoSchema);
 
     //require chai and use should() assertions
     let chai = require("chai");
@@ -29,9 +30,9 @@ class MongoTest {
 
   constructor() {
     this.data = {
-      email: "kiskinvlad@gmail.com",
-      firstName: "Kiskin",
-      lastName: "Vlad"
+      email: faker.internet.email(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName()
     };
   }
 
