@@ -19,3 +19,7 @@ To run ther server in development mode:
 ```
 npm run prod
 ```
+To run tests
+```
+npm test
+```
