@@ -15,16 +15,13 @@ const config_1 = require("./config");
 const config_2 = require("./config");
 const routes_1 = require("./routes");
 const config_3 = require("./config");
-const user_1 = require("./schemas/mongo/user");
 class App {
     constructor() {
-        this.model = Object();
         global.Promise = q_1.default.Promise;
         this.express = express_1.default();
         this.setupConfigurations();
         if (process.env.NODE_ENV !== 'test') {
-            this.setupMongo();
-            this.setupPostgress();
+            process.env.DB_NAME === 'psql' ? this.setupPostgress() : this.setupMongo();
         }
         this.mountAPIRoutes();
         this.handleErrors();
@@ -39,9 +36,15 @@ class App {
     }
     setupMongo() {
         mongoose_1.default.Promise = global.Promise;
-        const MONGODB_CONNECTION = "mongodb://localhost:27017/mongoDB";
-        const connection = mongoose_1.default.createConnection(MONGODB_CONNECTION, { useNewUrlParser: true });
-        this.model.user = connection.model("User", user_1.userMongoSchema);
+        const MONGODB_CONNECTION = "mongodb://localhost:27017/db";
+        const connection = mongoose_1.default.connect(MONGODB_CONNECTION, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+        }, (err) => {
+            if (err) {
+                config_1.logger.error(err);
+            }
+        });
     }
     setupPostgress() {
         config_3.sequelize.sync({ force: false }).then(() => {
@@ -55,7 +58,7 @@ class App {
         this.express.use('/api', routes_1.api);
     }
     handleErrors() {
-        this.express.use(morgan_1.default('dev'));
+        this.express.use(morgan_1.default(process.env.NODE_ENV));
         this.express.use(config_2.ErrorHandler.logErrors);
         this.express.use(config_2.ErrorHandler.clientErrorHandler);
         this.express.use(config_2.ErrorHandler.errorHandler);

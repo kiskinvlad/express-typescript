@@ -40,7 +40,7 @@ class UserTest {
   }
 
   @test("Properties should exist")
-  public checkProperties() {
+  public checkProperties(): void {
     context('user properties', () => {
       ;[
         'email',
@@ -52,7 +52,7 @@ class UserTest {
   }
 
   @test("Check assoiciations")
-  public checkAssociations() {
+  public checkAssociations(): void {
     const Association: any = Sequelize['Association'];
 
     expect(User)
@@ -63,7 +63,7 @@ class UserTest {
   }
   
   @test("Create user")
-  public async createUser() {
+  public async createUser(): Promise<void> {
     return await chai.request(App)
       .post('/api/user')
       .send(this.fakeUser)
@@ -75,7 +75,7 @@ class UserTest {
   }
 
   @test("Create user with company Id")
-  public async createUserWithCompany(): Promise<any>  {
+  public async createUserWithCompany(): Promise<void>  {
     this.fakeUser.companyId = 1;
     return await chai.request(App)
       .post('/api/user')
@@ -88,7 +88,7 @@ class UserTest {
   }
 
   @test("Shouldn't create invalid user")
-  public async createInvalidUser(): Promise<any> {
+  public async createInvalidUser(): Promise<void> {
     this.fakeUser.email = null;
     return await chai.request(App)
       .post('/api/user')

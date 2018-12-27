@@ -12,7 +12,7 @@ class InitializePostgres {
   constructor() {}
 
   @test("Postgres initializated")
-  public sequelizeCreated() {
+  public sequelizeCreated(): void {
     require('./company.spec');
     require('./user.spec');
   }
