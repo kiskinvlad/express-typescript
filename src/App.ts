@@ -21,19 +21,16 @@ import { userMongoSchema } from "./schemas/mongo/user";
 class App { 
 
   public express: express.Application; 
-  private model: IModel;
 
   constructor () { 
-    this.model = Object();
 
     global.Promise = q.Promise;
 
     this.express = express();
     this.setupConfigurations();
 
-    if(process.env.NODE_ENV !== 'test') {
-      this.setupMongo();
-      this.setupPostgress();
+    if (process.env.NODE_ENV !== 'test') {
+      process.env.DB_NAME === 'psql' ? this.setupPostgress() : this.setupMongo();
     }
     this.mountAPIRoutes();
     this.handleErrors();
@@ -53,11 +50,18 @@ class App {
     )
   }
 
-  private setupMongo(): void {
+  private setupMongo(): void{
     mongoose.Promise = global.Promise;
-    const MONGODB_CONNECTION: string = "mongodb://localhost:27017/mongoDB";
-    const connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION, { useNewUrlParser: true });
-    this.model.user = connection.model<IUserModel>("User", userMongoSchema);
+    const MONGODB_CONNECTION: string = "mongodb://localhost:27017/db";
+    const connection: mongoose.Connection = mongoose.connect(
+      MONGODB_CONNECTION,
+      {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+      },
+      (err) => {
+        if(err) { logger.error(err) }
+    });
   }
 
   private setupPostgress(): void {
@@ -74,7 +78,7 @@ class App {
   }
   
   private handleErrors(): void {
-    this.express.use(morgan('dev'));
+    this.express.use(morgan(process.env.NODE_ENV));
     this.express.use(ErrorHandler.logErrors);
     this.express.use(ErrorHandler.clientErrorHandler);
     this.express.use(ErrorHandler.errorHandler);

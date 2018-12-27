@@ -53,8 +53,10 @@
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "dev-psql": "DB_NAME=psql ts-node-dev --respawn --transpileOnly ./src/index.ts",
     "prod": "npm run build && node ./dist/index.js",
     "build": "gulp",
-    "test": "NODE_ENV=test mocha dist/tests/**/index.spec.js"
+    "test-mongo": "NODE_ENV=test-mongo mocha dist/tests/unit/mongo/index.spec.js",
+    "test-psql": "NODE_ENV=test-sql mocha dist/tests/unit/psql/index.spec.js"
   }
 }

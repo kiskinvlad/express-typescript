@@ -41,7 +41,7 @@ class CompanyTest {
   }
 
   @test("Properties should exist")
-  public checkProperties() {
+  public checkProperties(): void {
     context('company properties', () => {
       ;[
         'name',
@@ -51,7 +51,7 @@ class CompanyTest {
   }
 
   @test("Check assoiciations")
-  public checkAssociations() {
+  public checkAssociations(): void {
     const Association: any = Sequelize['Association'];
 
     expect(Company)
@@ -61,7 +61,7 @@ class CompanyTest {
   }
 
   @test("Create company")
-  public async createCompany() {
+  public async createCompany(): Promise<void> {
     return await chai.request(App)
       .post('/api/company')
       .send(this.fakeCompany).then((res) => { 
@@ -72,7 +72,7 @@ class CompanyTest {
   }
 
   @test("Shouldn't create company")
-  public async createInvalidUser(): Promise<any> {
+  public async createInvalidUser(): Promise<void> {
     this.fakeCompany.name = null;
     return await chai.request(App)
       .post('/api/company')
