@@ -9,22 +9,30 @@ const paths = {
     spec: ['src/tests/unit/*.spec.ts']
 
 };
-
+/**
+ * Copy html to dist folder
+ */
 const copyHtml = function () {
     return src(paths.pages)
         .pipe(dest("dist"));
 };
-
+/**
+ * Copy .env file to dist folder
+ */
 const copyEnv = function () {
     return src(paths.env)
         .pipe(dest("dist"));
 };
-
+/**
+ * Copy test files to dist folder
+ */
 const copySpec = function () {
     return src(paths.spec)
         .pipe(dest("dist/tests"));
 };
-
+/**
+ * Default gulp task which include tasks below
+ */
 function defaultTask(cb) {
     copyHtml();
     copyEnv();

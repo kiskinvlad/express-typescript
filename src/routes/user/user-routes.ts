@@ -24,7 +24,9 @@ class UserRoutes {
    * Sequilize router
    */
   private initializeSequelizeRouter(): void {
-
+    /**
+     * Update user by id
+     */
     this.router.patch('/', async (req: Request, res: Response) => {
       const id = req.query.id;
       const body = req.body;
@@ -37,7 +39,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get all users
+     */
     this.router.get('/all', async (req: Request, res: Response) => {
       try {
         res.status(200).json(await User.findAll());
@@ -45,7 +49,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get user by id
+     */
     this.router.get('/', async (req: Request, res: Response) => {
       const id = req.query.id;
       try {
@@ -54,8 +60,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-    
-
+    /**
+     * Create new user
+     */
     this.router.post('/', async (req: Request, res: Response) => {
       try {
         const email = req.body.email;
@@ -77,7 +84,9 @@ class UserRoutes {
         }
       }
     });
-
+    /**
+     * Send not found for other not existing routes
+     */
     this.router.get('/*', async (req: Request, res: Response, next: NextFunction) => {
       const e = {status: 404, message: 'Not Found'}
       res.status(e.status).json({message: e.message});
@@ -88,9 +97,13 @@ class UserRoutes {
    * Mongo router
    */
   private initializeMongoRouter(): void {
-
+    /**
+     * Create User mongo model
+     */
     const User: mongoose.Model<IUserModel> = mongoose.model<IUserModel>("User", userMongoSchema);
-    
+    /**
+     * Update user by lastname
+     */
     this.router.patch('/', async (req: Request, res: Response) => {
       const lastName = req.query.lastName;
       const body = req.body;
@@ -103,7 +116,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get all users
+     */
     this.router.get('/all', async (req: Request, res: Response) => {
       try {
         res.status(200).json(await User.find({}));
@@ -111,7 +126,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get user by lastname
+     */
     this.router.get('/', async (req: Request, res: Response) => {
       const lastName = req.query.lastName;
       try {
@@ -120,8 +137,9 @@ class UserRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-    
-
+    /**
+     * Create new user
+     */
     this.router.post('/', async (req: Request, res: Response) => {
       try {
         const email = req.body.email;
@@ -143,7 +161,9 @@ class UserRoutes {
         }
       }
     });
-
+    /**
+     * Send not found for other not existing routes
+     */
     this.router.get('/*', async (req: Request, res: Response, next: NextFunction) => {
       const e = {status: 404, message: 'Not Found'}
       res.status(e.status).json({message: e.message});

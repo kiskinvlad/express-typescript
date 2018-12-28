@@ -28,7 +28,9 @@ class CompanyRoutes {
    * Sequilize router
    */
   private initializeSequelizeRouter(): void {
-
+    /**
+     * Update company by id
+     */
     this.router.patch('/', async (req: Request, res: Response, next: NextFunction) => {
       const id = req.body.id;
       const body = req.body;
@@ -41,7 +43,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get all companies
+     */
     this.router.get('/all', async (req: Request, res: Response, next: NextFunction) => {
       try {
         res.status(200).json(await Company.findAll());
@@ -49,7 +53,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Update company by id
+     */
     this.router.get('/', async (req: Request, res: Response, next: NextFunction) => {
       const id = req.query.id;
       try {
@@ -58,7 +64,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get users by company id
+     */
     this.router.get('/users', async (req: Request, res: Response, next: NextFunction) => {
       const id = req.query.companyId;
       try {
@@ -69,7 +77,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Create new company
+     */
     this.router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       try {
         const company = await Company.create(req.body);
@@ -78,7 +88,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Send not found for other not existing routes
+     */
     this.router.get('/*', async (req: Request, res: Response, next: NextFunction) => {
       const e = {status: 404, message: 'Not Found'}
       res.status(e.status).json({message: e.message});
@@ -91,10 +103,14 @@ class CompanyRoutes {
    * Mongo router
    */
   private initializeMongoRouter(): void {
-
+    /**
+     * Create User and Company mongo models
+     */
     const User: mongoose.Model<IUserModel> = mongoose.model<IUserModel>("User", userMongoSchema);
     const Company: mongoose.Model<ICompanyModel> = mongoose.model<ICompanyModel>("Company", companyMongoSchema);
-
+    /**
+     * Update company by name
+     */
     this.router.patch('/', async (req: Request, res: Response, next: NextFunction) => {
       const name = req.body.name;
       const body = req.body;
@@ -107,7 +123,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get all companies
+     */
     this.router.get('/all', async (req: Request, res: Response, next: NextFunction) => {
       try {
         res.status(200).json(await Company.find({}));
@@ -115,7 +133,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get company by name
+     */
     this.router.get('/', async (req: Request, res: Response, next: NextFunction) => {
       const name = req.query.name;
       try {
@@ -124,7 +144,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Get users by company id
+     */
     this.router.get('/users', async (req: Request, res: Response, next: NextFunction) => {
       const id = req.query.companyId;
       try {
@@ -135,7 +157,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Create new company
+     */
     this.router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       try {
         const company = await Company.create(req.body);
@@ -144,7 +168,9 @@ class CompanyRoutes {
         res.status(500).json({message: e.message, name: e.name})
       }
     });
-
+    /**
+     * Send not found for other not existing routes
+     */
     this.router.get('/*', async (req: Request, res: Response, next: NextFunction) => {
       const e = {status: 404, message: 'Not Found'}
       res.status(e.status).json({message: e.message});
