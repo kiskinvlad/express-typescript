@@ -1,7 +1,7 @@
 {
   "name": "ts-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple express.js + mongo/postgres framework on typescript",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
