@@ -67,7 +67,7 @@ To run mongo tests
 ```
 npm test-mongo
 ```
-To run postgressql tests
+To run postgres tests
 ```
 npm test-psql
 ```
