@@ -25,7 +25,7 @@ tsconfig.json
   ]
 }
 ```
-.env 
+.env -- rename .env.development to .env
 ```
 #Node environment
 NODE_ENV=development
