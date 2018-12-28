@@ -33,8 +33,9 @@ class Logger {
         format: winston.format.json()
       },
       console: {
-        level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
+        level: 'debug',
         handleExceptions: true,
+        options: { flags: 'w'},
         json: false,
         colorize: true,
         format: this.format(),
@@ -46,13 +47,16 @@ class Logger {
   private setupWinstonLogger(options): winston.Logger {
     const logger = winston.createLogger({
       transports: [
-        new winston.transports.File(options.file),
+        new winston.transports.File(options.file).on('flush', () => {
+          process.exit(0);
+        }),
         new winston.transports.Console(options.console)
       ],
       exitOnError: false,
     });
     return logger;
   }
+  
 }
 
 export default new Logger().winston;

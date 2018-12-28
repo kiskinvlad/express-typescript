@@ -1,12 +1,23 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
-var config_1 = require("./config");
-var App_1 = require("./App");
-var port = process.env.PORT || 3000;
-App_1.default.listen(port, function (err) {
+const config_1 = require("./config");
+const App_1 = __importDefault(require("./App"));
+/**
+ * Server port and custom variable
+ */
+const port = process.env.PORT || 3000;
+const name = process.env.NAME;
+/**
+ * Entry endpoint of express app
+ * Starting server
+ */
+App_1.default.listen(port, (err) => {
     if (err) {
         return config_1.logger.error(err);
     }
-    return config_1.logger.info("Server is listening on port " + port);
+    return config_1.logger.info(`Hello ${name}, server is listening on port ${port}`);
 });
