@@ -1,5 +1,7 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
+import 'dotenv/config';
+
 /**
  *  Remove next if using mongo
  */

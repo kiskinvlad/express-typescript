@@ -14,7 +14,11 @@ export class InitializeMongo {
     mongoose.Promise = global.Promise;
     const MONGODB_CONNECTION: string = "mongodb://localhost:27017/db";
     // const connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION, { useNewUrlParser: true });
-    InitializeMongo.connection = mongoose.createConnection(MONGODB_CONNECTION, { useNewUrlParser: true });;
+    InitializeMongo.connection = mongoose.createConnection(MONGODB_CONNECTION, 
+      { 
+        useNewUrlParser: true,
+        useCreateIndex: true,
+      });
   }
 
   constructor() {}

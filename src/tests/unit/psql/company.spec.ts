@@ -84,4 +84,28 @@ class CompanyTest {
       })
   }
 
+  @test("Should create a new Company with name `Company`")
+  public async createCompanyWithName(): Promise<void> {
+    this.fakeCompany.name = 'Company';
+    return await chai.request(App)
+    .post('/api/company')
+    .send(this.fakeCompany)
+    .then((res) => {
+      expect(res.body.name).to.be.equal('Company');
+      expect(res).to.have.status(201);
+    })
+  }
+
+  @test("Should find company with id = 1")
+  public async getCompanyWithName(): Promise<void> {
+    const id = 1;
+    return await chai.request(App)
+    .get('/api/company')
+    .query({id: id})
+    .then((res) => {
+      res.body.should.exist;
+      res.body.id.should.be.equal(id);
+    })
+  }
+
 }

@@ -8,6 +8,9 @@ import { userMongoSchema } from "../../../schemas/mongo/user";
 import faker from 'faker';
 import { InitializeMongo } from "./index.spec";
 
+import chai from "chai";
+import chaiHttp from 'chai-http';
+import { expect } from "chai";
 @suite
 class UserTest {
 
@@ -15,9 +18,9 @@ class UserTest {
   public static User: mongoose.Model<IUserModel>;
 
   public static before() {
-
     UserTest.User = InitializeMongo.getConnection().model<IUserModel>("User", userMongoSchema);
-    
+    chai.use(chaiHttp)
+    chai.should();
   }
 
   constructor() {
@@ -60,6 +63,36 @@ class UserTest {
       e.errors.email.should.exist;
       e.errors.email.message.should.be.equal('Path `email` is required.')
     });
+  }
+
+  @test("Should create user with email `kiskinvlad@gmail.com`")
+  public async createSpecialUser(): Promise<void> {
+    this.data.email = 'kiskinvlad@gmail.com';
+    return new UserTest.User(this.data).save().then(result => {
+      result.email.should.equal(this.data.email);
+      result.firstName.should.equal(this.data.firstName);
+      result.lastName.should.equal(this.data.lastName);
+      result.companyId.should.equal(this.data.companyId);
+    }).catch(e => {
+      expect(e.errmsg).to.deep.include('duplicate key error collection')
+    });
+  }
+
+  // @test("Should find user with id = 1")
+  // public async getUserById(): Promise<void> {
+  //   const id = 1;
+  //   return UserTest.User.findOne({id: id}).then(result => {
+  //     result.id.should.be.equal(id);
+  //   }).catch(e => console.log(e));
+  // }
+
+  @test("Should find user with email = `kiskinvlad@gmail.com`")
+  public async getSpecialUser(): Promise<void> {
+    const email = 'kiskinvlad@gmail.com';
+    return UserTest.User.findOne({email: email}).then(result => {
+      result.should.exist;
+      result.email.should.be.equal(email);
+    }).catch(e => console.log(e));
   }
 
 }

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const config_1 = require("./config");
 const App_1 = __importDefault(require("./App"));
-require.main.filename = 'index.js';
+//require.main.filename = 'index.js'
 const port = process.env.PORT || 3000;
 const name = process.env.NAME;
 App_1.default.listen(port, (err) => {

@@ -100,4 +100,30 @@ class UserTest {
       })
   }
 
+  @test("Should find user with id = 1")
+  public async getUserById(): Promise<void> {
+    const id = 1;
+    return await chai.request(App)
+    .get('/api/user')
+    .query({id: id})
+    .then((res) => {
+      res.body.id.should.be.equal(id);
+    })
+  }
+
+  @test("Create user with email `kiksinvlad@gmail.com`")
+  public async createSpecialUser(): Promise<void> {
+    this.fakeUser.email = 'kiskinvlad@gmail.com'
+    return await chai.request(App)
+      .post('/api/user')
+      .send(this.fakeUser)
+      .then((res) => { 
+        res.body.should.be.a('object');
+        expect(res).to.have.status(201)
+        expect(res.body).to.deep.include(this.fakeUser);
+      }).catch(e => {
+      
+      })
+  }
+
 }     

@@ -12,8 +12,8 @@ class InitializePostgres {
   constructor() {}
 
   @test("Postgres initializated")
-  public sequelizeCreated(): void {
-    require('./company.spec');
-    require('./user.spec');
+  public async sequelizeCreated() {
+    await require('./company.spec');
+    await require('./user.spec');
   }
 }
