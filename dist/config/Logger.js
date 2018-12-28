@@ -32,7 +32,7 @@ class Logger {
                 format: winston.format.json()
             },
             console: {
-                level: process.env.NODE_ENV == 'production' ? 'error' : 'debug',
+                level: 'debug',
                 handleExceptions: true,
                 options: { flags: 'w' },
                 json: false,
