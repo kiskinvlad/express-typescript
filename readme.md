@@ -71,3 +71,9 @@ To run postgres tests
 ```
 npm test-psql
 ```
+## License
+
+[MIT](LICENSE.md) &copy; [Kiskin Vladislav][author]
+
+
+[author]: https://github.com/kiskinvlad
